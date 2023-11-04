@@ -12,20 +12,17 @@ export default class Cart {
   }
 
   calculationSum(): number {
-    let sum: number = 0;
-    
-    this._items.forEach(item => sum += item.price);
-    return sum;
+    return this.items.reduce((acc, prevValue) => acc + prevValue.price, 0)
+
   }
 
   calculationDiscountedAmount(discount: number): number {
-    let sum: number = this.calculationSum();
-    discount = discount / 100;
-    sum = sum * (1 - discount);
-    return sum;
+    const calculationSum = this.items.reduce((acc, prevValue) => acc + prevValue.price, 0);
+    return calculationSum - calculationSum * discount / 100;
   }
 
   remove(id: number): void {
-    this._items = this._items.filter(item => item.id !== id);
+    const idx = this.items.findIndex((item) => item.id === id);
+    this._items.splice(idx, 1)
   }
 }
